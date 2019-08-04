@@ -19,22 +19,16 @@
       name: "List",
       data(){
           return{
-            hotdogs: [],
-            isRender: true,
-            vm:this
           }
       },
       computed:{
-        ...mapGetters(['GET_HOTDOGS','RENDER_STATUS'])
-      },
-      beforeMount(){
-        this.$store.commit('RENDER',this.vm)
+        ...mapGetters(['GET_HOTDOGS'])
       },
       mounted() {
         axios
           .get('http://localhost:3000/hotdog',{
           })
-          .then(response => (  this.$store.commit('SET_HOTDOGS',response.data.hotdog)));
+          .then(response => (this.$store.commit('SET_HOTDOGS',response.data.hotdog)))
       },
     }
 </script>

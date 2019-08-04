@@ -21,7 +21,8 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="add">Save</v-btn>
+          <v-btn v-if="edit===false" color="blue darken-1" text @click="add">Save</v-btn>
+          <v-btn v-else color="blue darken-1" text @click="edit">Edit</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -29,7 +30,6 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
     import axios from "axios";
 
     export default {
@@ -37,7 +37,7 @@
         data: () => ({
             dialog: false,
             title: 'Title',
-            text: 'Text',
+            edit: false,
             index: 0
         }),
         methods:{
@@ -49,10 +49,12 @@
                   }
                 })
                 .then(() => (
-                  this.$store.commit('RENDER_STATUS')
-                ));
-            },
+                  axios
+                  .get('http://localhost:3000/hotdog',{
+                  })
+                  .then(response => (this.$store.commit('SET_HOTDOGS',response.data.hotdog)))))
 
+            },
         }
     }
 </script>

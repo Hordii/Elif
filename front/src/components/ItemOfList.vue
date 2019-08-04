@@ -14,18 +14,24 @@
         height="15px"
         @click="edit(hotdog._id)"
       )
-         v-icon
+      | Press enter or blue circle for update
+      v-text-field(
+        label="edit"
+        v-model="editText"
+        @keyup.enter="edit(hotdog._id)"
+      )
+
 
 </template>
 
 <script>
-
     import axios from "axios";
 
     export default {
       props:['hotdog'],
         data(){
           return{
+            editText:''
           }
         },
       methods: {
@@ -36,8 +42,11 @@
                     id:index
                   }
               })
-              .then(response => (
-                this.$store.commit('DELETE_HOTDOG', index)
+              .then(() => (
+                axios
+                  .get('http://localhost:3000/hotdog',{
+                  })
+                  .then(response => (this.$store.commit('SET_HOTDOGS',response.data.hotdog)))
               ));
           },
           edit(index){
@@ -45,10 +54,16 @@
               .put('http://localhost:3000/hotdog',{
                 data:{
                   id:index,
-                  title:'upd_title'
+                  title: this.editText
                 }
               })
-              .then(response => (response));
+              .then(() => (
+                axios
+                  .get('http://localhost:3000/hotdog',{
+                  })
+                  .then(response => (this.$store.commit('SET_HOTDOGS',response.data.hotdog)))
+              ));
+            this.editText=''
           },
       }
     }

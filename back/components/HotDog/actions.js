@@ -5,14 +5,17 @@ exports.add = async ( req, res ) => {
     const hotdog = new model({
      title: req.body.data.title
     });
-    hotdog.save(()=>{
+    hotdog.save((err)=>{
+      if(err){
+        handleError(res, 400, error)
+      }
       res
         .status(200)
         .contentType("text/plain")
         .end("Hotdog saved")
     })
   }catch (error) {
-
+    handleError(res, 400, error)
   }
 };
 exports.get = async ( req, res) =>{
@@ -25,12 +28,18 @@ exports.get = async ( req, res) =>{
       })
 
   }catch (error) {
-
-  }
+      res
+        .status(400)
+        .contentType("text/plain")
+        .send(error)
+    }
 };
 exports.put = async ( req, res) =>{
   try {
-    await model.updateOne({_id:req.body.data.id}, { title:req.body.data.title },()=>{
+    await model.updateOne({_id:req.body.data.id}, { title:req.body.data.title },(err)=>{
+      if(err){
+        handleError(res, 400, error)
+      }
       res
         .status(200)
         .contentType("text/plain")
@@ -38,18 +47,27 @@ exports.put = async ( req, res) =>{
     })
 
   }catch (error) {
-
+    handleError(res, 400, error)
   }
 };
 exports.delete = async ( req, res) =>{
   try {
-    model.findOneAndDelete({ _id: req.body.id },()=>{
+    model.findOneAndDelete({ _id: req.body.id },(err)=>{
+      if(err){
+        handleError(res, 400, error)
+      }
       res
         .status(200)
         .contentType("text/plain")
         .end('Delete successful')
     })
   }catch (error) {
-
+    handleError(res, 400, error)
   }
 };
+function handleError(res, statusCode, error) {
+  res
+    .status(statusCode)
+    .contentType("text/plain")
+    .send(error)
+}
