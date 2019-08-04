@@ -2,7 +2,7 @@
   div(class="main-div")
     ul(class="ul-without-symbol")
       ItemOfList(
-        v-for="hotdog in hotdogs"
+        v-for="hotdog in GET_HOTDOGS"
         :hotdog="hotdog"
         :key="hotdog.index"
       )
@@ -11,6 +11,7 @@
 <script>
   import ItemOfList from "./ItemOfList";
   import axios from 'axios'
+  import {mapGetters} from "vuex";
     export default {
       components:{
         ItemOfList
@@ -18,18 +19,23 @@
       name: "List",
       data(){
           return{
-            hotdogs:[],
-
+            hotdogs: [],
+            isRender: true,
+            vm:this
           }
       },
+      computed:{
+        ...mapGetters(['GET_HOTDOGS','RENDER_STATUS'])
+      },
+      beforeMount(){
+        this.$store.commit('RENDER',this.vm)
+      },
       mounted() {
-        this.$store.commit('SET_CONTEXT', this)
         axios
           .get('http://localhost:3000/hotdog',{
           })
-          .then(response => (this.hotdogs = response.data.hotdog ));
-
-      }
+          .then(response => (  this.$store.commit('SET_HOTDOGS',response.data.hotdog)));
+      },
     }
 </script>
 

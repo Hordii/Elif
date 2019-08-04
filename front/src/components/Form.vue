@@ -48,7 +48,9 @@
                     title: this.title
                   }
                 })
-                .then(response => (response));
+                .then(() => (
+                  this.$store.commit('RENDER_STATUS')
+                ));
             },
 
         }

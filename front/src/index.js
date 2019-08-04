@@ -6,15 +6,28 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     hotdogs:[],
-    context:''
+    isRender:false
   },
-  getters: {},
-  mutations: {
-    SET_CONTEXT(state, payload){
-      state.context = payload;
+  getters: {
+    GET_HOTDOGS: state => {
+      return state.hotdogs
     },
-    FORCE_UPDATE(state){
-      state.context.$forceUpdate()
+
+  },
+  mutations: {
+    SET_HOTDOGS(state, payload){
+      state.hotdogs = payload;
+    },
+    RENDER(state, payload){
+      state.isRender = payload
+    },
+    DELETE_HOTDOG(state, payload){
+       this.state.hotdogs =state.hotdogs.filter(item =>{
+        return item._id !== payload.toString()
+      })
+    },
+    RENDER_STATUS(state){
+      state.isRender.$forceUpdate()
     }
   },
  }

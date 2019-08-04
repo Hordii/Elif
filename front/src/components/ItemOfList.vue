@@ -16,7 +16,6 @@
       )
          v-icon
 
-
 </template>
 
 <script>
@@ -37,8 +36,9 @@
                     id:index
                   }
               })
-              .then(response => (response));
-              this.$store.commit('FORCE_UPDATE')
+              .then(response => (
+                this.$store.commit('DELETE_HOTDOG', index)
+              ));
           },
           edit(index){
             axios
