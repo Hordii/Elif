@@ -9,7 +9,7 @@ const cors = require('cors');
 const serveStatic = require('serve-static')
 
 const app = express();
-app.use(express.static(path.join(__dirname, './dist')));
+app.use(serveStatic(__dirname+'./dist'));
 
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
