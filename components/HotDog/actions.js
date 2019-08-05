@@ -7,7 +7,7 @@ exports.add = async ( req, res ) => {
     });
     hotdog.save((err)=>{
       if(err){
-        handleError(res, 400, error)
+        return handleError(res, 400, error)
       }
       res
         .status(200)
@@ -15,7 +15,7 @@ exports.add = async ( req, res ) => {
         .end("Hotdog saved")
     })
   }catch (error) {
-    handleError(res, 400, error)
+    return handleError(res, 400, error)
   }
 };
 exports.get = async ( req, res) =>{
@@ -38,7 +38,7 @@ exports.put = async ( req, res) =>{
   try {
     await model.updateOne({_id:req.body.data.id}, { title:req.body.data.title },(err)=>{
       if(err){
-        handleError(res, 400, error)
+        return handleError(res, 400, error)
       }
       res
         .status(200)
@@ -47,14 +47,14 @@ exports.put = async ( req, res) =>{
     })
 
   }catch (error) {
-    handleError(res, 400, error)
+    return handleError(res, 400, error)
   }
 };
 exports.delete = async ( req, res) =>{
   try {
     model.findOneAndDelete({ _id: req.body.id },(err)=>{
       if(err){
-        handleError(res, 400, error)
+        return handleError(res, 400, error)
       }
       res
         .status(200)
@@ -62,7 +62,7 @@ exports.delete = async ( req, res) =>{
         .end('Delete successful')
     })
   }catch (error) {
-    handleError(res, 400, error)
+    return handleError(res, 400, error)
   }
 };
 function handleError(res, statusCode, error) {
