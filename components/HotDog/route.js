@@ -3,7 +3,7 @@ const router = express.Router();
 const controller = require('./controller')
 
 router
-  .route('/')
+  .route('/hotdog')
   .get(controller.get)
   .post(controller.add)
   .put(controller.put)
