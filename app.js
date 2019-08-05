@@ -9,6 +9,7 @@ const cors = require('cors');
 const serveStatic = require('serve-static')
 
 const app = express();
+app.use(serveStatic(__dirname+'/dist'))
 
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -18,7 +19,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(cors());
-app.use(serveStatic(__dirname+'/dist'))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
